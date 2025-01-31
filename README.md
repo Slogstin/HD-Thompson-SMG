@@ -15,13 +15,13 @@ Swampyrad for the PPSH-41 code and [RadTech](https://github.com/swampyrad/RadTec
 # Contents
 ## Thompson SMG:
     * Can spawn on Ammoboxes
-    * Uses 45.LC ammunition*
+    * Uses 45.LC ammunition(!)
     * Heavy and a bit more awkward to use than the PPSH-41
     * Uses both Drum and Stick magazines
     * Loadout code: TSG
     * Class: HDTommyGun
 
-    *I was thinking about it using .45ACP, but decided against it, since there are already plenty ACP weapons.
+    (!)I was thinking about it using .45ACP, but decided against it, since there are already plenty ACP weapons.
 
     
 ## Thompson Drum Magazine:
