@@ -15,7 +15,7 @@ Swampyrad for the PPSH-41 code and [RadTech](https://github.com/swampyrad/RadTec
 # Contents
 ## Thompson SMG:
     * Can spawn on Ammoboxes
-    * Uses 45.LC ammunition(!)
+    * Uses .45LC ammunition(!)
     * Heavy and a bit more awkward to use than the PPSH-41
     * Dang good Shield Buster
     * Uses both Drum and Stick magazines
