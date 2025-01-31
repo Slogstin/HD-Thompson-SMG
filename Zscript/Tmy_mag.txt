@@ -1,0 +1,93 @@
+class HDTommyDrum:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pistol Magazine"
+		//$Sprite "CLP2A0"
+
+		scale 0.35;
+		hdmagammo.maxperunit 50;
+		hdmagammo.roundtype "HD45LCAmmo";
+		hdmagammo.roundbulk ENC_355*2;
+		hdmagammo.magbulk ENC_TOMMY_DRUM_EMPTY;
+		tag "Thompson Drum Magazine";
+		inventory.pickupmessage "Picked up a Thompson drum magazine.";
+		hdpickup.refid "TM5";
+	}
+	override string,string,name,double getmagsprite(int thismagamt)
+	{
+		string magsprite;
+		if(thismagamt>0)
+			magsprite = "TMYDA0";
+		else
+			magsprite = "TMYDB0";
+		return magsprite,"PR10A0","HD45LCAmmo",1;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDM1Thompson");
+	}
+	states{
+	spawn:
+		TMYD A -1;
+		stop;
+	spawnempty:
+		TMYD B -1 A_SpawnEmpty();
+		stop;
+	}
+}
+
+
+class HDTommyEmptyDrum:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HDTommyDrum",0);
+		destroy();
+	}
+}
+
+
+class HDTommyMag:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pistol Magazine"
+		//$Sprite "CLP2A0"
+
+		scale 0.35;
+		hdmagammo.maxperunit 30;
+		hdmagammo.roundtype "HD45LCAmmo";
+		hdmagammo.roundbulk ENC_355*2;
+		hdmagammo.magbulk ENC_TOMMY_BOX_EMPTY;
+		tag "Thompson Box Magazine";
+		inventory.pickupmessage "Picked up a Thompson box magazine.";
+		hdpickup.refid "TM3";
+	}
+	override string,string,name,double getmagsprite(int thismagamt)
+	{
+		string magsprite;
+		if(thismagamt>0)
+			magsprite = "TMYMA0";
+		else
+			magsprite = "TMYMB0";
+		return magsprite,"PR10A0","HD45LCAmmo",1;
+	}
+	
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDM1Thompson");
+	}
+	states{
+	spawn:
+		TMYM A -1;
+		stop;
+	spawnempty:
+		TMYM B -1 A_SpawnEmpty();
+		stop;
+	}
+}
+
+
+class HDTommyEmptyMag:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HDTommyMag",0);
+		destroy();
+	}
+}

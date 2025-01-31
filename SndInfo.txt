@@ -1,0 +1,4 @@
+Tommy/Shoot				"sounds/Thompson/TmyShoot.ogg"
+Tommy/Cock				"sounds/Thompson/TmmyCock.ogg"
+Tommy/Uncock			"sounds/Thompson/TmmyUncock.ogg"
+Tommy/Hit				"sounds/Thompson/TmmyHit.ogg"
