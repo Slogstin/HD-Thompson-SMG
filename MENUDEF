@@ -1,0 +1,25 @@
+AddOptionMenu "OptionsMenu" {
+    Submenu "$THOMPSON_MENU", "ThompsonMenu"
+}
+
+AddOptionMenu "HDAddonMenu" {
+    Submenu "$THOMPSON_MENU", "ThompsonMenu"
+}
+
+OptionMenu "ThompsonMenu"
+{
+    Title "$THOMPSON_MENU"
+    
+    StaticText ""
+    StaticText "$MERCH_TAG_THOMPSON"
+    Slider "$MENU_WEPSPAWNRATE", "tommy_clipbox_spawn_weight", 0.0, 100, .01, 2
+    Slider "$MENU_MAGSPAWNRATE", "tommy_clipmag_spawn_weight", 0.0, 100, .01, 2
+    Slider "$MENU_MERCHPRICEWEP", "hdm_thompson_price", 0.0, 10000, 10, 2
+    Slider "$MENU_MERCHPRICEMAG", "hdm_thompsonmag_price", 0.0, 10000, 10, 2
+    Slider "$MENU_MERCHPRICEDRUM", "hdm_thompsondrum_price", 0.0, 10000, 10, 2
+    Option "$MENU_MERCHENABLED", "hdm_enable_thompson", "OnOff"
+    StaticText ""
+
+    StaticText ""
+    Option "$MENU_PERSISTENCY", "tommy_persistency", "OnOff"
+}

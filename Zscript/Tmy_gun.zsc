@@ -4,6 +4,7 @@ const ENC_TOMMY_BOX_EMPTY = 9;
 const ENC_TOMMY_DRUM_LOADED = ENC_TOMMY_DRUM_EMPTY*0.9;
 const ENC_TOMMY_BOX_LOADED = ENC_TOMMY_BOX_EMPTY*0.7;
 
+const HDLD_THOMPSON = "tsg";
 
 class HDM1Thompson :HDHandgun{
     //flags used for managing reloads
@@ -23,25 +24,22 @@ class HDM1Thompson :HDHandgun{
 		weapon.bobrangey 0.7;
 		weapon.bobspeed 2.5;
 		weapon.bobstyle "normal";
-		inventory.pickupmessage "You got the Thompson SMG! Go gangster on them!";
-		obituary "%o got swept by %k.";
-		tag "Thompson SMG";
-		hdweapon.refid "TSG";
+		inventory.pickupmessage "$PICKUP_THOMPSON";
+		obituary "$OB_THOMPSON";
+		tag "$TAG_THOMPSON";
+		hdweapon.refid HDLD_THOMPSON;
 		hdweapon.barrelsize 30,0.3,0.4;
 		inventory.icon "TMMYA0";
 
 		hdweapon.loadoutcodes "
-		//switchtype config unused, afaik all 
-		//Soviet-era PPSh-41s had full-auto
 			\cufiremode - 0/1, semi/auto
-			\box - start loaded with a box magazine instead"
-			;
+			\cubox - start loaded with a box magazine instead";
 	}
 
 	override void postbeginplay(){
 		super.postbeginplay();
 		weaponspecial=1337;//UaS stabilizer compatibility
-		weaponstatus[0]|=PPSHF_SELECTFIRE;//full-auto enabled
+		weaponstatus[0]|=TMMYF_SELECTFIRE;//full-auto enabled
 	}
 
 	override double weaponbulk(){
@@ -49,33 +47,33 @@ class HDM1Thompson :HDHandgun{
 		int result = 150;//a bit heavier than the SMG
 		
 		// magazine bulk
-		if(weaponstatus[PPSHS_MAG]
-		   &&weaponstatus[PPSHS_MAGTYPE]==2
+		if(weaponstatus[TMMYS_MAG]
+		   &&weaponstatus[TMMYS_MAGTYPE]==2
 		  )result += ENC_TOMMY_DRUM_EMPTY;
-		else if(weaponstatus[PPSHS_MAG]
-		        &&weaponstatus[PPSHS_MAGTYPE]==1
+		else if(weaponstatus[TMMYS_MAG]
+		        &&weaponstatus[TMMYS_MAGTYPE]==1
 		       )result += ENC_TOMMY_BOX_EMPTY;
 
     // ammo bulk
-		int mgg=weaponstatus[PPSHS_MAG];
+		int mgg=weaponstatus[TMMYS_MAG];
 		
 		// total bulk
 		return result+(mgg<0?0:(mgg*ENC_762TOKAREV_LOADED));
 	}
 	
 	override double gunmass(){
-		int mgg=weaponstatus[PPSHS_MAG];
+		int mgg=weaponstatus[TMMYS_MAG];
 		
 		//add weight of ammo and magazine, if loaded
 		return 9+(mgg<0?0:0.10*(mgg+1))
-		        +(weaponstatus[PPSHS_MAGTYPE]==1?2:0)
-		        +(weaponstatus[PPSHS_MAGTYPE]==2?4:0);
+		        +(weaponstatus[TMMYS_MAGTYPE]==1?2:0)
+		        +(weaponstatus[TMMYS_MAGTYPE]==2?4:0);
 	}
 	
 	override void failedpickupunload(){
-	if(weaponstatus[PPSHS_MAGTYPE]==1)
-	  failedpickupunloadmag(PPSHS_MAG,"HDTommyMag");
-	else failedpickupunloadmag(PPSHS_MAG,"HDTommyDrum");
+	if(weaponstatus[TMMYS_MAGTYPE]==1)
+	  failedpickupunloadmag(TMMYS_MAG,"HDTommyMag");
+	else failedpickupunloadmag(TMMYS_MAG,"HDTommyDrum");
 	}
 	
 	override string,double getpickupsprite(bool usespare)
@@ -83,13 +81,13 @@ class HDM1Thompson :HDHandgun{
       string sprname="TMMY";
 
 			// For ammo reloads via cheats. 
-			if(GetSpareWeaponValue(PPSHS_MAG, usespare) >= 0
-			   &&weaponstatus[PPSHS_MAGTYPE]==2)
+			if(GetSpareWeaponValue(TMMYS_MAG, usespare) >= 0
+			   &&weaponstatus[TMMYS_MAGTYPE]==2)
 			{
 				sprind="C";
 			}
-			else if(GetSpareWeaponValue(PPSHS_MAG, usespare) >= 0
-			        &&weaponstatus[PPSHS_MAGTYPE]==1)
+			else if(GetSpareWeaponValue(TMMYS_MAG, usespare) >= 0
+			        &&weaponstatus[TMMYS_MAGTYPE]==1)
 			{
 				sprind="B";
 			}
@@ -133,34 +131,33 @@ class HDM1Thompson :HDHandgun{
 		}
 	  
 	  //firemode setting
-		sb.drawwepcounter(hdw.weaponstatus[0]&PPSHF_FIREMODE,
+		sb.drawwepcounter(hdw.weaponstatus[0]&TMMYF_FIREMODE,
 			-22,-10,"RBRSA3A7","STFULAUT"
 		);
 		
 		//main ammobar
-		sb.drawwepnum(hdw.weaponstatus[PPSHS_MAG],
-		              hdw.weaponstatus[PPSHS_MAG]>30?
-		                hdw.weaponstatus[PPSHS_MAG]:30,-16);
+		sb.drawwepnum(hdw.weaponstatus[TMMYS_MAG],
+		              hdw.weaponstatus[TMMYS_MAG]>30?
+		                hdw.weaponstatus[TMMYS_MAG]:30,-16);
 		
 		//second ammobar, for drum mags
-		if(hdw.weaponstatus[PPSHS_MAG]>30)
-	    sb.drawwepnum(hdw.weaponstatus[PPSHS_MAG]-25,20,-16,-2);
+		if(hdw.weaponstatus[TMMYS_MAG]>30)
+	    sb.drawwepnum(hdw.weaponstatus[TMMYS_MAG]-25,20,-16,-2);
 		
 		//chamber status
-		if(hdw.weaponstatus[PPSHS_CHAMBER]==2)sb.drawrect(-19,-11,3,1);
-		if(hdw.weaponstatus[PPSHS_CHAMBER]==1)sb.drawrect(-17,-11,1,1);
+		if(hdw.weaponstatus[TMMYS_CHAMBER]==2)sb.drawrect(-19,-11,3,1);
+		if(hdw.weaponstatus[TMMYS_CHAMBER]==1)sb.drawrect(-17,-11,1,1);
 	}
 	
 	override string gethelptext(){
 		return
-		WEPHELP_FIRESHOOT
-		..WEPHELP_ALTFIRE.."  Rack bolt\n"
-		..WEPHELP_FIREMODE.."  Semi/Auto\n"
-		..WEPHELP_RELOAD.."  Reload mag (drum mags first)\n"
-		..WEPHELP_ALTRELOAD.."  Reload box magazine\n"
-		..WEPHELP_MAGMANAGER
-		..WEPHELP_UNLOADUNLOAD
-		;
+		LWPHELP_FIRESHOOT
+		..LWPHELP_ALTFIRE..Stringtable.Localize("$HELPTEXT_THOMPSON_1")
+		..LWPHELP_FIREMODE..Stringtable.Localize("$HELPTEXT_THOMPSON_2")
+		..LWPHELP_RELOAD..Stringtable.Localize("$HELPTEXT_THOMPSON_3")
+		..LWPHELP_ALTRELOAD..Stringtable.Localize("$HELPTEXT_THOMPSON_4")
+		..LWPHELP_MAGMANAGER
+		..LWPHELP_UNLOADUNLOAD;
 	}
 	
 	override void DrawSightPicture(
@@ -212,39 +209,39 @@ class HDM1Thompson :HDHandgun{
 	
 	states{
 	select0:
-	  TMYG F 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-	                    &&invoker.weaponstatus[PPSHS_MAGTYPE]==2,6);//drum mag, uncocked
-		#### E 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-			                &&invoker.weaponstatus[PPSHS_MAGTYPE]==1,5);//box nag, uncocked
-		#### D 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==0,4);//no mag, uncocked
-		TMYG C 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,3);//drum mag, cocked
-		#### B 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==1,2);//box mag, cocked
+	  TMYG F 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+	                    &&invoker.weaponstatus[TMMYS_MAGTYPE]==2,6);//drum mag, uncocked
+		#### E 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+			                &&invoker.weaponstatus[TMMYS_MAGTYPE]==1,5);//box nag, uncocked
+		#### D 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==0,4);//no mag, uncocked
+		TMYG C 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,3);//drum mag, cocked
+		#### B 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==1,2);//box mag, cocked
 		#### A 0;//no mag, cocked
 		#### # 0;
 		goto select0big;
 	deselect0:
-		TMYG F 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==2,6);//drum mag, uncocked
-		#### E 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==1,5);//box nag, uncocked
-		#### D 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==0,4);//no mag, uncocked
-		TMYG C 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,3);//drum mag, cocked
-		#### B 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==1,2);//box mag, cocked
+		TMYG F 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==2,6);//drum mag, uncocked
+		#### E 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==1,5);//box nag, uncocked
+		#### D 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==0,4);//no mag, uncocked
+		TMYG C 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,3);//drum mag, cocked
+		#### B 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==1,2);//box mag, cocked
 		#### A 0;//no mag, cocked
 		#### # 0;
 		goto deselect0big;
 
 	ready:
-		TMYG F 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==2,6);//drum mag, uncocked
-		#### E 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==1,5);//box nag, uncocked
-		#### D 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
-					            &&invoker.weaponstatus[PPSHS_MAGTYPE]==0,4);//no mag, uncocked
-		TMYG C 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,3);//drum mag, cocked
-		#### B 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==1,2);//box mag, cocked
+		TMYG F 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==2,6);//drum mag, uncocked
+		#### E 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==1,5);//box nag, uncocked
+		#### D 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
+					            &&invoker.weaponstatus[TMMYS_MAGTYPE]==0,4);//no mag, uncocked
+		TMYG C 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,3);//drum mag, cocked
+		#### B 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==1,2);//box mag, cocked
 		#### A 0;//no mag, cocked
 		#### # 0 A_SetCrosshair(21);
 		#### # 1 {A_WeaponReady(WRF_ALL);
@@ -264,23 +261,23 @@ class HDM1Thompson :HDHandgun{
 	user2:
 	firemode:
 		---- # 0{
-		        invoker.weaponstatus[0]^=PPSHF_FIREMODE;
+		        invoker.weaponstatus[0]^=TMMYF_FIREMODE;
 	            }
 		goto nope;
 		
 	altfire:
   rackbolt:
-	#### # 0 A_JumpIf(invoker.weaponstatus[PPSHS_COCKED],"nope");
+	#### # 0 A_JumpIf(invoker.weaponstatus[TMMYS_COCKED],"nope");
 		#### # 2 offset(1,32);
 		#### # 2 offset(2,42);
-		TMYG C 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,3);//drum mag, cocked
-		#### B 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==1,2);//box mag, cocked
+		TMYG C 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,3);//drum mag, cocked
+		#### B 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==1,2);//box mag, cocked
 		#### A 0;//no mag, cocked
 		#### # 2 offset(3,48){A_StartSound("Tommy/Cock",8,CHANF_OVERLAP);
 	      			            A_MuzzleClimb(frandom(0.2,0.24),-frandom(0.3,0.36),frandom(0.2,0.24),-frandom(0.3,0.36));
         
         			            //spawns an unspent round 
-  			                  if(invoker.weaponstatus[PPSHS_CHAMBER]==2)
+  			                  if(invoker.weaponstatus[TMMYS_CHAMBER]==2)
   			                    A_SpawnItemEx("HD45LCAmmo",
 					            		                 cos(pitch)*10,0,height*0.82-sin(pitch)*10,
 					            		                 vel.x,vel.y,vel.z,
@@ -288,7 +285,7 @@ class HDM1Thompson :HDHandgun{
 				    			    		                );
 				    			    		                
         			            //spawns an spent casing 
-  			                  if(invoker.weaponstatus[PPSHS_CHAMBER]==1)
+  			                  if(invoker.weaponstatus[TMMYS_CHAMBER]==1)
   			                    A_SpawnItemEx("HDSpent45LC",
 					            		                 cos(pitch)*10,0,height*0.82-sin(pitch)*10,
 					            		                 vel.x,vel.y,vel.z,
@@ -296,8 +293,8 @@ class HDM1Thompson :HDHandgun{
 				    			    		                );
   			                    
 						    			    //chamber empty, bolt cocked
-					    			    	invoker.weaponstatus[PPSHS_CHAMBER]=0;
-					    			    	invoker.weaponstatus[PPSHS_COCKED]=1;
+					    			    	invoker.weaponstatus[TMMYS_CHAMBER]=0;
+					    			    	invoker.weaponstatus[TMMYS_COCKED]=1;
 					    			     }
 		#### # 2 offset(2,42);	
 		#### # 2 offset(1,32);
@@ -305,8 +302,8 @@ class HDM1Thompson :HDHandgun{
 		
 		//drop bolt without firing round
 	dropbolt:
-	  #### F 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,3);
-		#### E 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==1,2);
+	  #### F 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,3);
+		#### E 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==1,2);
 		#### D 0;
 		#### # 1 offset(-1,36) A_StartSound("Tommy/Hit",CHAN_WEAPON,CHANF_OVERLAP);
 		#### # 1 offset(1,30) A_StartSound("Tommy/Uncock",CHAN_WEAPON,CHANF_OVERLAP);
@@ -316,26 +313,26 @@ class HDM1Thompson :HDHandgun{
 	hold:
 		goto nope;
 	fire:
-	  #### # 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED]
+	  #### # 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED]
 	                    ,"nope");//do nothing if not cocked
 	shoot:
 	  #### # 0 {//drop the bolt
-		    	    invoker.weaponstatus[PPSHS_COCKED]=0;
+		    	    invoker.weaponstatus[TMMYS_COCKED]=0;
 		    	    
 		    	    //abort if no magazine or ammo
-		    	    if(invoker.weaponstatus[PPSHS_MAG]<=0
+		    	    if(invoker.weaponstatus[TMMYS_MAG]<=0
 		    	      )setweaponstate("dropbolt");
 		    	   }
-		#### F 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,2);
+		#### F 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,2);
 		#### E 0;
 	  #### # 2 {//using modified version of Sten's jamming mechanic
 	  
-		          let drumjam = invoker.weaponstatus[PPSHS_MAG]/3;
-		          let boxjam = invoker.weaponstatus[PPSHS_MAG]/4;
+		          let drumjam = invoker.weaponstatus[TMMYS_MAG]/3;
+		          let boxjam = invoker.weaponstatus[TMMYS_MAG]/4;
 		            
 		          //box mags are less likely to jam than drums
 		          if(!random(0,199
-		              -(invoker.weaponstatus[PPSHS_MAGTYPE]==2?drumjam:boxjam)
+		              -(invoker.weaponstatus[TMMYS_MAGTYPE]==2?drumjam:boxjam)
 		              -(drumjam>65?10:0)//higher chance to jam on a full drum
 		              )
 		            )setweaponstate("dropbolt");
@@ -349,16 +346,16 @@ class HDM1Thompson :HDHandgun{
 	            //on the weapon's mechanisms itself, not the mag's 
 	   
 	            //if magazine not empty, chamber a round
-	    		    if(invoker.weaponstatus[PPSHS_MAG]>0
-	    		      ){invoker.weaponstatus[PPSHS_MAG]--;
-				          invoker.weaponstatus[PPSHS_CHAMBER]=2;
+	    		    if(invoker.weaponstatus[TMMYS_MAG]>0
+	    		      ){invoker.weaponstatus[TMMYS_MAG]--;
+				          invoker.weaponstatus[TMMYS_CHAMBER]=2;
 		  	         }
 		    	    
 		    	    // random chance of light primer strike
 		          if(!random(0,149)
 		            )setweaponstate("dropbolt");
 	    	     }
-		#### # 0 {if(invoker.weaponstatus[PPSHS_CHAMBER]==2)
+		#### # 0 {if(invoker.weaponstatus[TMMYS_CHAMBER]==2)
 		            {A_GunFlash();
 		             A_MuzzleClimb(-frandom(0.6,0.9),-frandom(0.8,1.1),
 				                       frandom(0.4,0.5),frandom(0.6,0.8)
@@ -369,10 +366,10 @@ class HDM1Thompson :HDHandgun{
 		          if(!random(0,149))
 		            setweaponstate("dropbolt");
 		         }
-		#### C 0 A_JumpIf(invoker.weaponstatus[PPSHS_MAGTYPE]==2,2);
+		#### C 0 A_JumpIf(invoker.weaponstatus[TMMYS_MAGTYPE]==2,2);
 		#### B 0;         
 		#### # 1 {//eject spent casing
-		          if(invoker.weaponstatus[PPSHS_CHAMBER]==1)
+		          if(invoker.weaponstatus[TMMYS_CHAMBER]==1)
 		      	    A_EjectCasing("HDSpent45LC",
 		      	                   -frandom(166,170), //angle, -90 is standard
 		      	                  (0,               //x axis velocity
@@ -382,15 +379,15 @@ class HDM1Thompson :HDHandgun{
 		      	                 );
 	      		  
 	      		  //chamber empty, bolt recocked
-	      		  invoker.weaponstatus[PPSHS_CHAMBER]=0;
-	      		  invoker.weaponstatus[PPSHS_COCKED]=1;
+	      		  invoker.weaponstatus[TMMYS_CHAMBER]=0;
+	      		  invoker.weaponstatus[TMMYS_COCKED]=1;
 		         }
 		#### # 1 {
 		        	A_WeaponReady(WRF_NOFIRE);
 	        		if(
 	        			(invoker.weaponstatus[0]&
-	        			(PPSHF_FIREMODE|PPSHF_SELECTFIRE))
-	        			==(PPSHF_FIREMODE|PPSHF_SELECTFIRE)
+	        			(TMMYF_FIREMODE|TMMYF_SELECTFIRE))
+	        			==(TMMYF_FIREMODE|TMMYF_SELECTFIRE)
 	        		){
 	        			A_Refire("fire");
 	        		}else A_Refire();
@@ -404,7 +401,7 @@ class HDM1Thompson :HDHandgun{
 			    			    if(frandom(0,ceilingz-floorz)<bbb.speed*0.3
 						          )A_AlertMonsters(290);
                     //round fired, spent casing in chamber
-						        invoker.weaponstatus[PPSHS_CHAMBER]=1;
+						        invoker.weaponstatus[TMMYS_CHAMBER]=1;
 						        A_ZoomRecoil(0.995);
 			
 						        A_MuzzleClimb(
@@ -417,8 +414,8 @@ class HDM1Thompson :HDHandgun{
 		stop;
 		
 	unload:
-		---- # 0{invoker.weaponstatus[0]|=PPSHF_JUSTUNLOAD;
-			       if(invoker.weaponstatus[PPSHS_MAGTYPE]>0)setweaponstate("unmag");
+		---- # 0{invoker.weaponstatus[0]|=TMMYF_JUSTUNLOAD;
+			       if(invoker.weaponstatus[TMMYS_MAGTYPE]>0)setweaponstate("unmag");
 		}goto nope;
 		
 	loadchamber:
@@ -429,16 +426,16 @@ class HDM1Thompson :HDHandgun{
     //it screws everything up lmao
     
 	reload:
-	  ---- # 0 {invoker.weaponstatus[0]&=~PPSHF_JUSTUNLOAD;
+	  ---- # 0 {invoker.weaponstatus[0]&=~TMMYF_JUSTUNLOAD;
 	            
 			        //full box mag ammo check
-			        if( invoker.weaponstatus[PPSHS_MAGTYPE]==1
-			            &&invoker.weaponstatus[PPSHS_MAG]>=30
+			        if( invoker.weaponstatus[TMMYS_MAGTYPE]==1
+			            &&invoker.weaponstatus[TMMYS_MAG]>=30
 			          )setweaponstate("nope");
 			          
 			        //full drum mag ammo check
-			        if( invoker.weaponstatus[PPSHS_MAGTYPE]==2
-			            &&invoker.weaponstatus[PPSHS_MAG]>=50
+			        if( invoker.weaponstatus[TMMYS_MAGTYPE]==2
+			            &&invoker.weaponstatus[TMMYS_MAG]>=50
 			          )setweaponstate("nope");
 			       
 			        //do nothing if no mags or drums left
@@ -463,16 +460,16 @@ class HDM1Thompson :HDHandgun{
 		---- # 1 offset(2,40);
 		---- # 2 offset(4,46);
 		---- # 3 offset(6,52) A_StartSound("weapons/rifleunload",8,CHANF_OVERLAP,0.3);
-		#### D 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED],2);
+		#### D 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED],2);
 		#### A 0;
 		#### # 0 {//track current mag ammo
-		          int pmg=invoker.weaponstatus[PPSHS_MAG];
+		          int pmg=invoker.weaponstatus[TMMYS_MAG];
 		          //set weapon to "unloaded"
-			        invoker.weaponstatus[PPSHS_MAG]=-1;
+			        invoker.weaponstatus[TMMYS_MAG]=-1;
 
-			        if(invoker.weaponstatus[PPSHS_MAGTYPE]==2)
+			        if(invoker.weaponstatus[TMMYS_MAGTYPE]==2)
 			        {//skip if already unloaded
-			          invoker.weaponstatus[PPSHS_MAGTYPE]=0;
+			          invoker.weaponstatus[TMMYS_MAGTYPE]=0;
 			          if(pmg<0)setweaponstate("drummagout");
 			          else if (
 				               (!PressingUnload()&&!PressingReload()&&!PressingAltReload())
@@ -488,9 +485,9 @@ class HDM1Thompson :HDHandgun{
 			                 }
 			        }
 		               
-			        if(invoker.weaponstatus[PPSHS_MAGTYPE]==1)
+			        if(invoker.weaponstatus[TMMYS_MAGTYPE]==1)
 			        {//skip if already unloaded
-			          invoker.weaponstatus[PPSHS_MAGTYPE]=0;
+			          invoker.weaponstatus[TMMYS_MAGTYPE]=0;
 					  	  if(pmg<0)setweaponstate("boxmagout");
 					  	  else if(
 					  		      (!PressingUnload()&&!PressingReload()&&!PressingAltReload())
@@ -522,14 +519,14 @@ class HDM1Thompson :HDHandgun{
 	
 	drummagout:
 		#### # 0{
-			if(invoker.weaponstatus[0]&PPSHF_JUSTUNLOAD)setweaponstate("reloadend");
+			if(invoker.weaponstatus[0]&TMMYF_JUSTUNLOAD)setweaponstate("reloadend");
 			else if(invoker.MAG_FORCEBOX)setweaponstate("loadbox");
 			else setweaponstate("loaddrum");
 		}
 		
 	boxmagout:
 		#### # 0{
-			if(invoker.weaponstatus[0]&PPSHF_JUSTUNLOAD)setweaponstate("reloadend");
+			if(invoker.weaponstatus[0]&TMMYF_JUSTUNLOAD)setweaponstate("reloadend");
 			else if(invoker.MAG_FORCEDRUM)setweaponstate("loaddrum");
 			else setweaponstate("loadbox");
 		}
@@ -539,28 +536,20 @@ class HDM1Thompson :HDHandgun{
 		#### # 3 offset(6,52) A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
 		#### # 0 A_StartSound("weapons/pocket",9);
 		#### # 3 offset(6,52) A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
-		#### F 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED],2);		
+		#### F 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED],2);		
 		#### C 0;
 		#### # 3 offset(6,58);
-		---- # 0 {let mmm=hdmagammo(findinventory("HDTommyDrum"));
-			        if(mmm){invoker.weaponstatus[PPSHS_MAG]=mmm.TakeMag(true);
-				              invoker.weaponstatus[PPSHS_MAGTYPE]=2;
-				
-				              A_StartSound("weapons/rifleclick",8);
-				              A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
-				              //setweaponstate("reloadend");
-			               }
+		---- # 0
+		{
+			let mmm=hdmagammo(findinventory("HDTommyDrum"));
+			if(mmm)
+			{
+				invoker.weaponstatus[TMMYS_MAG]=mmm.TakeMag(true);
+				invoker.weaponstatus[TMMYS_MAGTYPE]=2;
+				A_StartSound("weapons/rifleclick",8);
+				A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
+			}
 		}
-//		#### # 3 offset(6,64);
-//		#### # 6 offset(6,58);
-//		#### # 2 offset(7,64);
-//		#### # 2 offset(8,70);
-//		#### # 2 offset(9,76);
-//		#### # 2 offset(8,82) A_StartSound("weapons/smack",8);
-//		#### # 2 offset(9,76);
-//		#### # 2 offset(8,70);
-//		#### # 2 offset(7,64);
-//		#### # 2 offset(6,52);
 		goto reloadend;
 	    
   loadbox:
@@ -568,17 +557,19 @@ class HDM1Thompson :HDHandgun{
 		#### # 0 A_StartSound("weapons/pocket",9);
 		#### # 3 offset(6,52) A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
 		#### # 3 offset(6,58);
-		---- # 0 {let mmm=hdmagammo(findinventory("HDTommyMag"));
-			        if(mmm){invoker.weaponstatus[PPSHS_MAG]=mmm.TakeMag(true);
-				              invoker.weaponstatus[PPSHS_MAGTYPE]=1;
-				              
-								      A_StartSound("weapons/rifleclick",8);
-								      A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
-											//setweaponstate("reloadend");
-							       }
+		---- # 0 
+		{
+			let mmm=hdmagammo(findinventory("HDTommyMag"));
+			if(mmm)
+			{
+				invoker.weaponstatus[TMMYS_MAG]=mmm.TakeMag(true);
+				invoker.weaponstatus[TMMYS_MAGTYPE]=1;              
+				A_StartSound("weapons/rifleclick",8);
+				A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
+			}
 		}
 		#### # 2 offset(6,64);
-		#### E 0 A_JumpIf(!invoker.weaponstatus[PPSHS_COCKED],2);		
+		#### E 0 A_JumpIf(!invoker.weaponstatus[TMMYS_COCKED],2);		
 		#### B 0;
 		#### # 2 offset(6,70);
 		#### # 2 offset(6,64);
@@ -603,9 +594,9 @@ class HDM1Thompson :HDHandgun{
 	spawn:
 		TMMY ABC -1 nodelay
 		{
-			if(invoker.weaponstatus[PPSHS_MAGTYPE]==2)
+			if(invoker.weaponstatus[TMMYS_MAGTYPE]==2)
 			    frame = 2;
-			else if (invoker.weaponstatus[PPSHS_MAGTYPE]==1)
+			else if (invoker.weaponstatus[TMMYS_MAGTYPE]==1)
 			    frame = 1;
 			else frame = 0;
 		}
@@ -613,39 +604,50 @@ class HDM1Thompson :HDHandgun{
 	}
 	
 	override void initializewepstats(bool idfa){
-		weaponstatus[PPSHS_MAG]=50;
-		weaponstatus[PPSHS_CHAMBER]=0;//open bolt
-		weaponstatus[PPSHS_MAGTYPE]=2;//drum mag
-		weaponstatus[PPSHS_COCKED]=1;//bolt cocked
+		weaponstatus[TMMYS_MAG]=50;
+		weaponstatus[TMMYS_CHAMBER]=0;//open bolt
+		weaponstatus[TMMYS_MAGTYPE]=2;//drum mag
+		weaponstatus[TMMYS_COCKED]=1;//bolt cocked
 	}
 	
 	override void loadoutconfigure(string input){
-		weaponstatus[0]|=PPSHF_SELECTFIRE;
+		weaponstatus[0]|=TMMYF_SELECTFIRE;
 		
-		if(weaponstatus[0]&PPSHF_SELECTFIRE){
+		if(weaponstatus[0]&TMMYF_SELECTFIRE){
 			int firemode=getloadoutvar(input,"firemode",1);
-			if(!firemode)weaponstatus[0]&=~PPSHF_FIREMODE;
-			else if(firemode>0)weaponstatus[0]|=PPSHF_FIREMODE;
+			if(!firemode)weaponstatus[0]&=~TMMYF_FIREMODE;
+			else if(firemode>0)weaponstatus[0]|=TMMYF_FIREMODE;
 		}
 		
 		int boxmag=getloadoutvar(input,"box",1);
-		if(!boxmag){weaponstatus[PPSHS_MAG]=50;
-		            weaponstatus[PPSHS_MAGTYPE]=2;
-		}else if(boxmag>0){weaponstatus[PPSHS_MAG]=30;
-		                   weaponstatus[PPSHS_MAGTYPE]=1;
+		if(!boxmag){weaponstatus[TMMYS_MAG]=50;
+		            weaponstatus[TMMYS_MAGTYPE]=2;
+		}else if(boxmag>0){weaponstatus[TMMYS_MAG]=30;
+		                   weaponstatus[TMMYS_MAGTYPE]=1;
 		                  }
 	}
 }
 
-enum papasha_status
+enum tommy_status
 {
-	PPSHF_SELECTFIRE=1,
-	PPSHF_FIREMODE=2,
-	PPSHF_JUSTUNLOAD=4,
+	TMMYF_SELECTFIRE=1,
+	TMMYF_FIREMODE=2,
+	TMMYF_JUSTUNLOAD=4,
 
-	PPSHS_FLAGS=0,
-	PPSHS_MAG=1,
-	PPSHS_CHAMBER=2, //0 empty, 1 spent, 2 loaded
-	PPSHS_MAGTYPE=3, //0 none, 1 box mag, 2 drum mag
-	PPSHS_COCKED=4,  //0 uncocked, 1 cocked
+	TMMYS_FLAGS=0,
+	TMMYS_MAG=1,
+	TMMYS_CHAMBER=2, //0 empty, 1 spent, 2 loaded
+	TMMYS_MAGTYPE=3, //0 none, 1 box mag, 2 drum mag
+	TMMYS_COCKED=4,  //0 uncocked, 1 cocked
 };
+
+class TommyDrop : IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			spawn("HDM1Thompson",pos+(2,0,0),ALLOW_REPLACE);
+			spawn("HDTommyDrum",pos+(7,0,0),ALLOW_REPLACE);
+			}
+			stop;
+	}
+}
