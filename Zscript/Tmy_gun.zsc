@@ -649,3 +649,14 @@ enum papasha_status
 	PPSHS_MAGTYPE=3, //0 none, 1 box mag, 2 drum mag
 	PPSHS_COCKED=4,  //0 uncocked, 1 cocked
 };
+
+class TommyDrop : IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			spawn("HDM1Thompson",pos+(2,0,0),ALLOW_REPLACE);
+			spawn("HDTommyDrum",pos+(7,0,0),ALLOW_REPLACE);
+			}
+			stop;
+	}
+}

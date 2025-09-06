@@ -1,0 +1,6 @@
+addSpawnTableSingleEntry => { "tableName": "ClipMagReplaces", "name": "HDTommyMag", "weight": "#tommy_clipmag_spawn_weight", "persists": "#tommy_persistency" }
+addSpawnTableSingleEntry => { "tableName": "ClipBoxReplaces", "name": "TommyDrop", "weight": "#tommy_clipbox_spawn_weight", "persists": "#tommy_persistency" }
+
+newMerchantStoreItem => { "enabled": "#hdm_enable_thompson", "type": "weapon", "category": "$MERCH_CAT_SLOGSTIN", "item": "HDM1Thompson", "icon": "TMMYB0", "displayName": "$MERCH_TAG_THOMPSON", "basePrice": "#hdm_thompson_price", "flavorText": "$MERCH_FLAVOR_THOMPSON" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_thompson", "type": "mag", "category": "$MERCH_CAT_SLOGSTIN", "item": "HDTommyMag", "icon": "TMYMA0", "displayName": "$MERCH_TAG_THOMPSONMAG", "basePrice": "#hdm_thompsonmag_price", "flavorText": "$MERCH_FLAVOR_THOMPSONMAG" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_thompson", "type": "mag", "category": "$MERCH_CAT_SLOGSTIN", "item": "HDTommyDrum", "icon": "TMYDA0", "displayName": "$MERCH_TAG_THOMPSONDRUM", "basePrice": "#hdm_thompsondrum_price", "flavorText": "$MERCH_FLAVOR_THOMPSONDRUM" }

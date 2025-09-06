@@ -1,0 +1,17 @@
+[enu default]
+
+// Main Menu
+THOMPSON_MENU = "\c[Orange]Ⓒ\c- Thompson";
+MENU_MAGSPAWNRATE = "Magazine Spawn Rate: ";
+MENU_WEPSPAWNRATE = "Weapon Spawn Rate: ";
+MENU_MERCHPRICEWEP = "Merchant Weapon Price: ";
+MENU_MERCHPRICEMAG = "Merchant Magazine Price: ";
+MENU_MERCHPRICEMAG = "Merchant Drum Magazine Price: ";
+MENU_MERCHENABLED = "Merchant Sold: ";
+MENU_PERSISTENCY = "Persistent Spawns: ";
+
+// Merchant
+MERCH_CAT_SLOGSTIN = "Virid Inc.";
+MERCH_TAG_THOMPSON = "Thompson SMG";
+MERCH_TAG_THOMPSONMAG = "Thompson SMG Magazine";
+MERCH_TAG_THOMPSONDRUM = "Thompson SMG Drum";

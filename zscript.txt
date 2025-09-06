@@ -1,5 +1,0 @@
-version "4.14"
-
-#include "Zscript/Tmy_gun.txt"
-#include "Zscript/Tmy_mag.txt"
-#include "Zscript/Tmy_spawn.txt"
