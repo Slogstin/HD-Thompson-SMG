@@ -13,8 +13,11 @@ MENU_PERSISTENCY = "Persistent Spawns: ";
 // Merchant
 MERCH_CAT_SLOGSTIN = "Virid Inc.";
 MERCH_TAG_THOMPSON = "Thompson SMG";
+MERCH_FLAVOR_THOMPSON = "Chambered in .45LC, because shields are just a suggestion.";
 MERCH_TAG_THOMPSONMAG = "Thompson SMG Magazine";
+MERCH_FLAVOR_THOMPSONMAG = "";
 MERCH_TAG_THOMPSONDRUM = "Thompson SMG Drum";
+MERCH_FLAVOR_THOMPSONDRUM = "";
 
 // Weapon
 TAG_THOMPSON = "Thompson SMG";
