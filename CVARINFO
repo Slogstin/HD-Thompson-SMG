@@ -3,6 +3,10 @@ server float tommy_clipmag_spawn_weight = 2;
 server float tommy_clipbox_spawn_weight = 1.95;
 server bool tommy_persistency = true;
 
+server bool tommy_allowBackpacks = true;
+server bool tommymag_allowBackpacks = true;
+server bool tommydrum_allowBackpacks = true;
+
 // Merchant
 server bool hdm_enable_thompson = true;
 server bool hdm_enable_thompsonmag = true;
