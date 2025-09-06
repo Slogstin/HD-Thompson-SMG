@@ -15,3 +15,12 @@ MERCH_CAT_SLOGSTIN = "Virid Inc.";
 MERCH_TAG_THOMPSON = "Thompson SMG";
 MERCH_TAG_THOMPSONMAG = "Thompson SMG Magazine";
 MERCH_TAG_THOMPSONDRUM = "Thompson SMG Drum";
+
+// Weapon
+TAG_THOMPSON = "Thompson SMG";
+OB_THOMPSON = "%o got swept by %k";
+PICKUP_THOMPSON = "You got the Thompson SMG! Go gangster on them!";
+HELPTEXT_THOMPSON_1 = "  Rack bolt\n";
+HELPTEXT_THOMPSON_2 = "  Semi/Auto\n";
+HELPTEXT_THOMPSON_3 = "  Reload mag (drum mags first)\n";
+HELPTEXT_THOMPSON_4 = "  Reload box magazine\n";
