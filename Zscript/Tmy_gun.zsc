@@ -6,7 +6,7 @@ const ENC_TOMMY_BOX_LOADED = ENC_TOMMY_BOX_EMPTY*0.7;
 
 const HDLD_THOMPSON = "tsg";
 
-class HDM1Thompson :HDHandgun{
+class HDM1Thompson :HDWeapon{
     //flags used for managing reloads
     //bool MAG_BOX;
     //bool MAG_DRUM;
@@ -650,4 +650,5 @@ class TommyDrop : IdleDummy{
 			}
 			stop;
 	}
+
 }
